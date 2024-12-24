@@ -7,6 +7,7 @@ import java.util.Scanner;
 import java.util.stream.Collectors;
 
 import br.com.nald.LiterAlura.dto.DadosLivro;
+import br.com.nald.LiterAlura.exceptions.MaisDeUmAutorException;
 import br.com.nald.LiterAlura.model.Autor;
 import br.com.nald.LiterAlura.model.Livro;
 import br.com.nald.LiterAlura.repository.LivroRepository;
@@ -117,8 +118,7 @@ public class Principal {
 			livro.setAutor(autor);
 			autor.getLivros().add(livro);
 		} else {
-			livro.setAutor(autorExiste.get());
-			autorExiste.get().getLivros().add(livro);
+			throw new MaisDeUmAutorException("Nessa aplicação (até o momento), só se pode 1 autor por livro, escolha um livro escrito por um outro autor.");
 		}
 		
 		repositorio.save(livro);
