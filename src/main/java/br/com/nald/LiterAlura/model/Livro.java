@@ -1,7 +1,7 @@
 package br.com.nald.LiterAlura.model;
 
 import br.com.nald.LiterAlura.dto.DadosLivro;
-import br.com.nald.LiterAlura.dto.RequesicaoDto;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -27,15 +27,13 @@ public class Livro {
 	
 	private Integer numeroDownloads;
 
-	@ManyToOne(fetch = FetchType.EAGER)
+	@ManyToOne(cascade = CascadeType.ALL , fetch = FetchType.EAGER)
 	private Autor autor;
 	
 	public Livro() { }
 
-	public Livro(RequesicaoDto dadosRequesicao) {
-		DadosLivro dados = dadosRequesicao.infoLivro().get(0);
+	public Livro(DadosLivro dados) {
 		this.titulo = dados.titulo();
-		this.autor = new Autor(dados.autor().get(0));
 		this.idioma = Idiomas.pegarIdioma(dados.lingua().get(0));
 		this.numeroDownloads = dados.numeroDeDownloads();
 	}
@@ -43,28 +41,44 @@ public class Livro {
 	public String getTitulo() {
 		return titulo;
 	}
+
 	public void setTitulo(String titulo) {
 		this.titulo = titulo;
 	}
+
 	public Autor getAutor() {
 		return autor;
 	}
+
 	public void setAutor(Autor autor) {
 		this.autor = autor;
 	}
+
 	public Idiomas getIdioma() {
 		return idioma;
 	}
+
 	public void setIdioma(Idiomas idioma) {
 		this.idioma = idioma;
 	}
+
 	public Integer getNumeroDownloads() {
 		return numeroDownloads;
 	}
+
 	public void setNumeroDownloads(Integer numeroDownloads) {
 		this.numeroDownloads = numeroDownloads;
 	}
 	
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+	
+
 	@Override
 	public String toString() {
 		return "\n------------- Livro -------------"

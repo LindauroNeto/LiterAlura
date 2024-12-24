@@ -6,7 +6,6 @@ import java.util.List;
 import br.com.nald.LiterAlura.dto.DadosAutor;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -55,6 +54,24 @@ public class Autor {
 		this.dataFalecimento = dataFalecimento;
 	}
 	
+	
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public List<Livro> getLivros() {
+		return livros;
+	}
+
+	public void setLivros(List<Livro> livros) {
+		livros.forEach(l -> l.setAutor(this));
+		this.livros = livros;
+	}
+
 	@Override
 	public String toString() {
 		return "\nAutor(a): " + getNome() +
