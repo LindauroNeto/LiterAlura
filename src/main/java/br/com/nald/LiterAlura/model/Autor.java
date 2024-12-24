@@ -1,12 +1,17 @@
 package br.com.nald.LiterAlura.model;
 
-import java.time.LocalDate;
+import br.com.nald.LiterAlura.dto.DadosAutor;
 
 public class Autor {
 	private String nome;
-	private LocalDate dataNascimento;
-	private LocalDate dataFalecimento;
+	private Integer dataNascimento;
+	private Integer dataFalecimento;
 	
+	public Autor(DadosAutor dados) {
+		this.nome = dados.nome();
+		this.dataNascimento = dados.anoNascimento();
+		this.dataFalecimento = dados.anoFalecimento();
+	}
 	
 	public String getNome() {
 		return nome;
@@ -14,16 +19,16 @@ public class Autor {
 	public void setNome(String nome) {
 		this.nome = nome;
 	}
-	public LocalDate getDataNascimento() {
+	public Integer getDataNascimento() {
 		return dataNascimento;
 	}
-	public void setDataNascimento(LocalDate dataNascimento) {
+	public void setDataNascimento(Integer dataNascimento) {
 		this.dataNascimento = dataNascimento;
 	}
-	public LocalDate getDataFalecimento() {
+	public Integer getDataFalecimento() {
 		return dataFalecimento;
 	}
-	public void setDataFalecimento(LocalDate dataFalecimento) {
+	public void setDataFalecimento(Integer dataFalecimento) {
 		this.dataFalecimento = dataFalecimento;
 	}
 	

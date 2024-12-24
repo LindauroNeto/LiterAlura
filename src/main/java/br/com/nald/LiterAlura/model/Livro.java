@@ -1,11 +1,19 @@
 package br.com.nald.LiterAlura.model;
 
+import br.com.nald.LiterAlura.dto.RequesicaoDto;
+
 public class Livro {
 	private String titulo;
 	private Autor autor;
 	private Idiomas idioma;
 	private Integer numeroDownloads;
 	
+	public Livro(RequesicaoDto dados) {
+		this.titulo = dados.titulo();
+		this.autor = new Autor(dados.autor());
+		this.idioma = Idiomas.pegarIdioma(dados.lingua());
+		this.numeroDownloads = dados.numeroDeDownloads();
+	}
 	
 	public String getTitulo() {
 		return titulo;

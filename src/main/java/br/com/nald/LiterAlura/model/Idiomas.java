@@ -12,7 +12,7 @@ public enum Idiomas {
 		this.lingua = lingua;
 	}
 	
-	public Idiomas pegarIdioma(String lingua) {
+	public static Idiomas pegarIdioma(String lingua) {
 		for (Idiomas iterable_element : Idiomas.values()) {
 			if (iterable_element.lingua.equalsIgnoreCase(lingua)) {
 				return iterable_element;

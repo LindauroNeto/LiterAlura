@@ -6,7 +6,7 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 
-public class CosumoAPI {
+public class ConsumoAPI {
 	public String obterDados(String endereco) {
 		HttpClient cliente = HttpClient.newHttpClient();
 		HttpRequest requesicao = HttpRequest.newBuilder().uri(URI.create(endereco)).build();
