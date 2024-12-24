@@ -80,6 +80,7 @@ public class Principal {
 		Optional<List<Autor>> autoresVivos = repositorio.autoresAindaVivos(dataAno);
 		
 		if (autoresVivos.isPresent()) {
+			System.out.println("Segue lista de autores vivos em " + dataAno);
 			autoresVivos.get().forEach(System.out::println);
 		} else {
 			System.out.println("Não há autores vivos no ano de: " + dataAno);
@@ -111,11 +112,19 @@ public class Principal {
 		Livro livro = new Livro(dadosLivro);
 		Autor autor = LivroService.obtencaoDadosAutor(dadosLivro);
 		
-		livro.setAutor(autor);
+		Optional<Autor> autorExiste = repositorio.autoresJaExistentes(autor.getNome());
+		if (autorExiste.isEmpty()) {
+			livro.setAutor(autor);
+			autor.getLivros().add(livro);
+		} else {
+			livro.setAutor(autorExiste.get());
+			autorExiste.get().getLivros().add(livro);
+		}
+		
 		repositorio.save(livro);
 		
 		System.out.println(livro.toString());
-		System.out.println(autor.toString());
+//		System.out.println(autor.toString());
 	}
 
 	@SuppressWarnings("deprecation")
