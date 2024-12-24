@@ -32,7 +32,12 @@ public class Autor {
 		this.dataFalecimento = dataFalecimento;
 	}
 	
-	
+	@Override
+	public String toString() {
+		return "\nAutor(a): " + getNome() +
+				"\nAno de Nascimento: " + getDataNascimento() +
+				"\nAno de Falecimento: " + getDataFalecimento();
+	}
 	
 	
 }

@@ -25,18 +25,25 @@ public class Principal {
 				
 				0 - Sair				
 				""";
+		var opcao = -1;
+		while (opcao != 0) {
+			System.out.println(menu);
+			opcao = scanner.nextInt();
+			scanner.nextLine();
+			
+			switch (opcao) {
+				case 1:
+					buscaLivro();
+					break;
 		
-		System.out.println(menu);
-		var opcao = scanner.nextInt();
-		scanner.nextLine();
-		
-		switch (opcao) {
-			case 1:
-				buscaLivro();
-				break;
-	
-			default:
-				break;
+				case 0:
+					System.out.println("Saindo do sistema...");
+					break;
+					
+				default:
+					System.out.println("Opção inválida");
+					break;
+			}
 		}
 	}
 
