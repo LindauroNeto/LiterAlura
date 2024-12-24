@@ -1,5 +1,6 @@
 package br.com.nald.LiterAlura.model;
 
+import br.com.nald.LiterAlura.dto.DadosLivro;
 import br.com.nald.LiterAlura.dto.RequesicaoDto;
 
 public class Livro {
@@ -8,10 +9,11 @@ public class Livro {
 	private Idiomas idioma;
 	private Integer numeroDownloads;
 	
-	public Livro(RequesicaoDto dados) {
+	public Livro(RequesicaoDto dadosRequesicao) {
+		DadosLivro dados = dadosRequesicao.infoLivro().get(0);
 		this.titulo = dados.titulo();
-		this.autor = new Autor(dados.autor());
-		this.idioma = Idiomas.pegarIdioma(dados.lingua());
+		this.autor = new Autor(dados.autor().get(0));
+		this.idioma = Idiomas.pegarIdioma(dados.lingua().get(0));
 		this.numeroDownloads = dados.numeroDeDownloads();
 	}
 	

@@ -28,6 +28,7 @@ public class Principal {
 		
 		System.out.println(menu);
 		var opcao = scanner.nextInt();
+		scanner.nextLine();
 		
 		switch (opcao) {
 			case 1:
@@ -45,7 +46,7 @@ public class Principal {
 		String json = criacaoConexao(nomeLivro);
 		
 		Livro livro = LivroService.obtencaoDadosLivro(json);
-		
+		System.out.println(livro.toString());
 	}
 
 	@SuppressWarnings("deprecation")
