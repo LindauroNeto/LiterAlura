@@ -1,6 +1,7 @@
 package br.com.nald.LiterAlura.principal;
 
 import java.net.URLEncoder;
+import java.util.Optional;
 import java.util.Scanner;
 
 import br.com.nald.LiterAlura.model.Livro;
@@ -25,6 +26,7 @@ public class Principal {
 				
 				0 - Sair				
 				""";
+		
 		var opcao = -1;
 		while (opcao != 0) {
 			System.out.println(menu);
