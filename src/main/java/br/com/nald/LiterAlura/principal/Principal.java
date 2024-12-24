@@ -3,8 +3,8 @@ package br.com.nald.LiterAlura.principal;
 import java.net.URLEncoder;
 import java.util.List;
 import java.util.Scanner;
+import java.util.stream.Collectors;
 
-import br.com.nald.LiterAlura.dto.DadosAutor;
 import br.com.nald.LiterAlura.dto.DadosLivro;
 import br.com.nald.LiterAlura.model.Autor;
 import br.com.nald.LiterAlura.model.Livro;
@@ -27,12 +27,11 @@ public class Principal {
 	public void menu() {
 		
 		String menu = """
+				\n
 				Escolha o número da sua opção
 				1 - Buscar livro pelo título
 				2 - Listar livros registrados
 				3 - Listar autores registrados
-				4 - Listar autores vivos em um determinado ano
-				5 - Listar livros em um determinado idioma
 				
 				0 - Sair				
 				""";
@@ -51,6 +50,10 @@ public class Principal {
 				case 2:
 					listagemLivros();
 					break;
+					
+				case 3:
+					listagemAutores();
+					break;
 		
 				case 0:
 					System.out.println("Saindo do sistema...");
@@ -61,6 +64,14 @@ public class Principal {
 					break;
 			}
 		}
+	}
+
+	private void listagemAutores() {
+		List<Autor> autores = repositorio.findAll().stream()
+				.map(l -> l.getAutor())
+				.collect(Collectors.toList());
+		autores.forEach(System.out::println);
+		
 	}
 
 	private void listagemLivros() {

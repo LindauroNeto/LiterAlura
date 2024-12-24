@@ -41,22 +41,26 @@ public class Autor {
 	public String getNome() {
 		return nome;
 	}
+
 	public void setNome(String nome) {
 		this.nome = nome;
 	}
+
 	public Integer getDataNascimento() {
 		return dataNascimento;
 	}
+
 	public void setDataNascimento(Integer dataNascimento) {
 		this.dataNascimento = dataNascimento;
 	}
+
 	public Integer getDataFalecimento() {
 		return dataFalecimento;
 	}
+	
 	public void setDataFalecimento(Integer dataFalecimento) {
 		this.dataFalecimento = dataFalecimento;
 	}
-	
 	
 	public Long getId() {
 		return id;
@@ -77,9 +81,12 @@ public class Autor {
 
 	@Override
 	public String toString() {
-		return "\nAutor(a): " + getNome() +
-				"\nAno de Nascimento: " + getDataNascimento() +
-				"\nAno de Falecimento: " + getDataFalecimento();
+		return "\n++++++++++++++++++++++++++++++"
+				+ "\nAutor(a): " + getNome()
+				+ "\nAno de Nascimento: " + getDataNascimento()
+				+ "\nAno de Falecimento: " + getDataFalecimento()
+//				+ "\nLivros: " + getLivros().stream().map(l -> l.getTitulo().toString())
+				+ "\n++++++++++++++++++++++++++++++";
 	}
 	
 	
