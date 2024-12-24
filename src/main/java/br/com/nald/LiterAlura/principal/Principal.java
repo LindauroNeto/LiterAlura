@@ -4,6 +4,7 @@ import java.util.Scanner;
 
 public class Principal {
 
+	private static final String urlApi = "https://gutendex.com/books/";
 	private static Scanner scanner = new Scanner(System.in);
 	
 	public static void menu() {
