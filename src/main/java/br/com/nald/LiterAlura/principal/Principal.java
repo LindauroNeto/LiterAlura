@@ -2,6 +2,7 @@ package br.com.nald.LiterAlura.principal;
 
 import java.net.URLEncoder;
 import java.util.List;
+import java.util.Optional;
 import java.util.Scanner;
 import java.util.stream.Collectors;
 
@@ -14,9 +15,9 @@ import br.com.nald.LiterAlura.service.LivroService;
 
 public class Principal {
 
-	private static final String urlApi = "https://gutendex.com/books/";
-	private static Scanner scanner = new Scanner(System.in);
-	private static ConsumoAPI consumo = new ConsumoAPI();
+	private final String urlApi = "https://gutendex.com/books/";
+	private Scanner scanner = new Scanner(System.in);
+	private ConsumoAPI consumo = new ConsumoAPI();
 	
 	private LivroRepository repositorio;
 	
@@ -32,6 +33,7 @@ public class Principal {
 				1 - Buscar livro pelo título
 				2 - Listar livros registrados
 				3 - Listar autores registrados
+				4 - Listar autores vivos em um determinado ano
 				
 				0 - Sair				
 				""";
@@ -54,6 +56,10 @@ public class Principal {
 				case 3:
 					listagemAutores();
 					break;
+					
+				case 4:
+					listagemAutoresPorData();
+					break;
 		
 				case 0:
 					System.out.println("Saindo do sistema...");
@@ -64,6 +70,21 @@ public class Principal {
 					break;
 			}
 		}
+	}
+
+	private void listagemAutoresPorData() {
+		System.out.println("Coloque a data limite: ");
+		var dataAno = scanner.nextInt();
+		scanner.nextLine();
+		
+		Optional<List<Autor>> autoresVivos = repositorio.autoresAindaVivos(dataAno);
+		
+		if (autoresVivos.isPresent()) {
+			autoresVivos.get().forEach(System.out::println);
+		} else {
+			System.out.println("Não há autores vivos no ano de: " + dataAno);
+		}
+		
 	}
 
 	private void listagemAutores() {
@@ -92,6 +113,7 @@ public class Principal {
 		
 		livro.setAutor(autor);
 		repositorio.save(livro);
+		
 		System.out.println(livro.toString());
 		System.out.println(autor.toString());
 	}
