@@ -1,30 +1,18 @@
 package br.com.nald.LiterAlura.principal;
 
-import java.net.URLEncoder;
-import java.util.List;
-import java.util.Optional;
 import java.util.Scanner;
-import java.util.stream.Collectors;
 
-import br.com.nald.LiterAlura.dto.DadosLivro;
-import br.com.nald.LiterAlura.exceptions.MaisDeUmAutorException;
-import br.com.nald.LiterAlura.model.Autor;
-import br.com.nald.LiterAlura.model.Livro;
-import br.com.nald.LiterAlura.repository.LivroRepository;
-import br.com.nald.LiterAlura.service.ConsumoAPI;
-import br.com.nald.LiterAlura.service.LivroService;
+import br.com.nald.LiterAlura.service.PrincipalService;
 
 public class Principal {
 
-	private final String urlApi = "https://gutendex.com/books/";
-	private Scanner scanner = new Scanner(System.in);
-	private ConsumoAPI consumo = new ConsumoAPI();
+	private PrincipalService servico;
 	
-	private LivroRepository repositorio;
-	
-	public Principal(LivroRepository repositorio) {
-		this.repositorio = repositorio;
+	public Principal(PrincipalService repositorio) {
+		this.servico = repositorio;
 	}
+	
+	private Scanner scanner = new Scanner(System.in);
 
 	public void menu() {
 		
@@ -35,6 +23,7 @@ public class Principal {
 				2 - Listar livros registrados
 				3 - Listar autores registrados
 				4 - Listar autores vivos em um determinado ano
+				5 - Listar livros em um determinado idioma
 				
 				0 - Sair				
 				""";
@@ -47,19 +36,23 @@ public class Principal {
 			
 			switch (opcao) {
 				case 1:
-					buscaLivro();
+					servico.buscaLivro();
 					break;
 				
 				case 2:
-					listagemLivros();
+					servico.listagemLivros();
 					break;
 					
 				case 3:
-					listagemAutores();
+					servico.listagemAutores();
 					break;
 					
 				case 4:
-					listagemAutoresPorData();
+					servico.listagemAutoresPorData();
+					break;
+					
+				case 5:
+					servico.listagemLivrosPorIdioma();
 					break;
 		
 				case 0:
@@ -73,63 +66,4 @@ public class Principal {
 		}
 	}
 
-	private void listagemAutoresPorData() {
-		System.out.println("Coloque a data limite: ");
-		var dataAno = scanner.nextInt();
-		scanner.nextLine();
-		
-		Optional<List<Autor>> autoresVivos = repositorio.autoresAindaVivos(dataAno);
-		
-		if (autoresVivos.isPresent()) {
-			System.out.println("Segue lista de autores vivos em " + dataAno);
-			autoresVivos.get().forEach(System.out::println);
-		} else {
-			System.out.println("Não há autores vivos no ano de: " + dataAno);
-		}
-		
-	}
-
-	private void listagemAutores() {
-		List<Autor> autores = repositorio.findAll().stream()
-				.map(l -> l.getAutor())
-				.collect(Collectors.toList());
-		autores.forEach(System.out::println);
-		
-	}
-
-	private void listagemLivros() {
-		System.out.println("Livros registrados: ");
-		List<Livro> livros = repositorio.findAll();
-		livros.forEach(System.out::println);
-		
-	}
-
-	private void buscaLivro() {
-		System.out.println("Digite o nome do livro: ");
-		var nomeLivro = scanner.nextLine();
-		String json = criacaoConexao(nomeLivro);
-		
-		DadosLivro dadosLivro = LivroService.obtencaoDadosLivro(json);
-		Livro livro = new Livro(dadosLivro);
-		Autor autor = LivroService.obtencaoDadosAutor(dadosLivro);
-		
-		Optional<Autor> autorExiste = repositorio.autoresJaExistentes(autor.getNome());
-		if (autorExiste.isEmpty()) {
-			livro.setAutor(autor);
-			autor.getLivros().add(livro);
-		} else {
-			throw new MaisDeUmAutorException("Nessa aplicação (até o momento), só se pode 1 autor por livro, escolha um livro escrito por um outro autor.");
-		}
-		
-		repositorio.save(livro);
-		
-		System.out.println(livro.toString());
-//		System.out.println(autor.toString());
-	}
-
-	@SuppressWarnings("deprecation")
-	private String criacaoConexao(String nomeLivro) {
-		String nome = URLEncoder.encode(nomeLivro); 
-		return consumo.obterDados(urlApi + "?search=" + nome);
-	}
 }

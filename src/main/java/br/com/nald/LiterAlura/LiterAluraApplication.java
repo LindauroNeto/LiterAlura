@@ -7,6 +7,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import br.com.nald.LiterAlura.principal.Principal;
 import br.com.nald.LiterAlura.repository.LivroRepository;
+import br.com.nald.LiterAlura.service.PrincipalService;
 
 @SpringBootApplication
 public class LiterAluraApplication implements CommandLineRunner{
@@ -14,13 +15,16 @@ public class LiterAluraApplication implements CommandLineRunner{
 	@Autowired
 	public LivroRepository repositorio;
 	
+	@Autowired
+	private PrincipalService servico;
+	
 	public static void main(String[] args) {
 		SpringApplication.run(LiterAluraApplication.class, args);
 	}
 
 	@Override
 	public void run(String... args) throws Exception {
-		Principal principal = new Principal(repositorio);
+		Principal principal = new Principal(servico);
 		principal.menu();
 	}
 
