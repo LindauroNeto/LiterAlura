@@ -22,9 +22,11 @@ public class PrincipalService {
 	private ConsumoAPI consumo = new ConsumoAPI();
 	
 	private LivroRepository repositorio;
+	private LivroService servicoLivro;
 	
-	public PrincipalService(LivroRepository repositorio) {
+	public PrincipalService(LivroRepository repositorio, LivroService servicoLivro) {
 		this.repositorio = repositorio;
+		this.servicoLivro = servicoLivro;
 	}
 	
 	// Métodos
@@ -38,6 +40,25 @@ public class PrincipalService {
 				""";
 		
 		System.out.println(menuIdiomas);
+		var opcao = scanner.nextLine().toLowerCase();
+		switch (opcao) {
+		case "es":
+			
+			break;
+		case "en":
+			
+			break;
+		case "fr":
+			
+			break;
+		case "pt":
+			
+			break;
+
+		default:
+			System.out.println("Opção inválida");
+			break;
+		}
 	}
 	
 	public void listagemAutoresPorData() {
@@ -76,9 +97,9 @@ public class PrincipalService {
 		var nomeLivro = scanner.nextLine();
 		String json = criacaoConexao(nomeLivro);
 		
-		DadosLivro dadosLivro = LivroService.obtencaoDadosLivro(json);
+		DadosLivro dadosLivro = servicoLivro.obtencaoDadosLivro(json);
 		Livro livro = new Livro(dadosLivro);
-		Autor autor = LivroService.obtencaoDadosAutor(dadosLivro);
+		Autor autor = servicoLivro.obtencaoDadosAutor(dadosLivro);
 		
 		Optional<Autor> autorExiste = repositorio.autoresJaExistentes(autor.getNome());
 		if (autorExiste.isEmpty()) {
