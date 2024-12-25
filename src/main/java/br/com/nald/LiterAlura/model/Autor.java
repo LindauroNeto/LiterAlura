@@ -84,8 +84,8 @@ public class Autor {
 	public String toString() {
 		return "\n++++++++++++++++++++++++++++++"
 				+ "\nAutor(a): " + getNome()
-				+ "\nAno de Nascimento: " + getDataNascimento()
-				+ "\nAno de Falecimento: " + getDataFalecimento()
+				+ "\nAno de Nascimento: " + (getDataNascimento() != null ? getDataNascimento() : "SEM DATA INFORMADA")
+				+ "\nAno de Falecimento: " + (getDataFalecimento()  != null ? getDataFalecimento() : "SEM DATA INFORMADA")
 //				+ "\nLivros: " + getLivros().stream().map(l -> l.getTitulo())
 				+ "\n++++++++++++++++++++++++++++++";
 	}

@@ -27,25 +27,9 @@ public class PrincipalService {
 				""";
 		
 		System.out.println(menuIdiomas);
-		var opcao = scanner.nextLine().toLowerCase();
-		switch (opcao) {
-			case "es":
-				
-				break;
-			case "en":
-				
-				break;
-			case "fr":
-				
-				break;
-			case "pt":
-				
-				break;
-	
-			default:
-				System.out.println("Opção inválida");
-				break;
-		}
+		var opcao = scanner.nextLine().toLowerCase().trim();
+		
+		servicoLivro.buscandoLivrosPorIdioma(opcao);
 	}
 	
 	public void listagemAutoresPorData() {
@@ -70,7 +54,7 @@ public class PrincipalService {
 	
 	public void buscaLivro() {
 		System.out.println("Digite o nome do livro: ");
-		var nomeLivro = scanner.nextLine();
+		var nomeLivro = scanner.nextLine().toLowerCase();
 		
 		servicoLivro.buscandoERegistrandoDeLivro(urlApi, nomeLivro);
 		

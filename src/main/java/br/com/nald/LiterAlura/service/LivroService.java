@@ -11,8 +11,10 @@ import org.springframework.stereotype.Service;
 import br.com.nald.LiterAlura.dto.DadosAutor;
 import br.com.nald.LiterAlura.dto.DadosLivro;
 import br.com.nald.LiterAlura.dto.RequesicaoDto;
+import br.com.nald.LiterAlura.exceptions.LivroNaoEcontradoException;
 import br.com.nald.LiterAlura.exceptions.MaisDeUmAutorException;
 import br.com.nald.LiterAlura.model.Autor;
+import br.com.nald.LiterAlura.model.Idiomas;
 import br.com.nald.LiterAlura.model.Livro;
 import br.com.nald.LiterAlura.repository.LivroRepository;
 
@@ -23,17 +25,32 @@ public class LivroService {
 	
 	@Autowired
 	private LivroRepository repositorio;
+
+	// Métodos vv
 	
-	
+	public void buscandoLivrosPorIdioma(String idioma) {
+		Idiomas idiomaBuscado = Idiomas.pegarIdioma(idioma);
+		
+		List<Livro> livroPorIdioma = repositorio.findByIdioma(idiomaBuscado);
+		
+		if (livroPorIdioma.isEmpty()) {
+			System.out.println("Livros no idioma \"" + idioma + "\" não foram encontrados no catálogo");
+		} else {
+			contagemDeItensDeBusca(livroPorIdioma);
+			livroPorIdioma.forEach(System.out::println);
+		}
+		
+	}
 	
 	public void listandoAutoresPelaData(Integer dataAno) {
-		Optional<List<Autor>> autoresVivos = repositorio.autoresAindaVivos(dataAno);
+		List<Autor> autoresVivos = repositorio.autoresAindaVivos(dataAno);
 		
-		if (autoresVivos.isPresent()) {
-			System.out.println("Segue lista de autores vivos em " + dataAno);
-			autoresVivos.get().forEach(System.out::println);
-		} else {
+		if (autoresVivos.isEmpty()) {
 			System.out.println("Não há autores vivos no ano de: " + dataAno);
+		} else {
+			System.out.println("Segue lista de autores vivos em " + dataAno + ":");
+			contagemDeItensDeBusca(autoresVivos);
+			autoresVivos.forEach(System.out::println);
 		}
 		
 	}
@@ -42,15 +59,19 @@ public class LivroService {
 		List<Autor> autores = repositorio.findAll().stream()
 				.map(l -> l.getAutor())
 				.collect(Collectors.toList());
+		
+		contagemDeItensDeBusca(autores);
 		autores.forEach(System.out::println);
 		
 	}
 	
 	public void listandoLivrosRegistrados() {
 		List<Livro> livros = repositorio.findAll();
+		
+		contagemDeItensDeBusca(livros);
 		livros.forEach(System.out::println);
 	}
-	
+
 	public void buscandoERegistrandoDeLivro(String url, String nomeLivro) {
 		String json = criacaoConexao(url, nomeLivro);
 		
@@ -71,14 +92,26 @@ public class LivroService {
 		System.out.println(livro.toString());
 	}
 	
-	public DadosLivro obtencaoDadosLivro(String json) {
+	private DadosLivro obtencaoDadosLivro(String json) {
 		RequesicaoDto requesicao = conversor.obterDados(json, RequesicaoDto.class);
-		return requesicao.infoLivro().get(0);
+		if (requesicao.infoLivro().isEmpty()) {
+			throw new LivroNaoEcontradoException("O livro não foi encontrado dentro do catálogo");
+			
+		} else {
+			return requesicao.infoLivro().get(0);
+		}
 	}
 	
-	public Autor obtencaoDadosAutor(DadosLivro dadosLivro) {
+	private Autor obtencaoDadosAutor(DadosLivro dadosLivro) {
 		DadosAutor dadosAutor = dadosLivro.autor().get(0);
 		return new Autor(dadosAutor);
+	}
+	
+	private <T> void contagemDeItensDeBusca(List<T> lista) {
+		Long total = (long) lista.size();
+		String totalTexto = (total > 1 ? " encontrados." : " econtrado.");
+		
+		System.out.println(total + totalTexto);
 	}
 	
 	@SuppressWarnings("deprecation")
