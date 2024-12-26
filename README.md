@@ -1,4 +1,4 @@
-#LiterAlura - Colecionando Livros! 📚👨‍💻
+# LiterAlura - Colecionando Livros! 📚👨‍💻
 Sistema de catálogo de livros, utilizando a API [Gutendex](https://github.com/garethbjohnson/gutendex) e convertendo seus dados para dentro da aplicação e passando os dados para um banco de dados relacionais.
 
 ## 🔨 Funcionalidades
