@@ -12,7 +12,7 @@ Sistema de catálogo de livros, utilizando a API [Gutendex](https://github.com/g
 
 ***OBS.2.: Ainda sobre a `Funcionalidade 1`, no momento, a aplicação só suporta 1 livro por autor, a pretensão futura é de permitir mais de livro por autor.***
 
-## 🧠 Conhecimentos aplicado
+## 🧠 Conhecimentos aplicados
 - Estilo de empacotamento em **Package by Layer**;
 - **Consumo de API**, com a ajuda de **Records** e do **Jackson** para a conversão dos dados;
 - **Persistência dos Dados** obtidos;
@@ -22,7 +22,7 @@ Sistema de catálogo de livros, utilizando a API [Gutendex](https://github.com/g
 - Tratamento de **Exceptions**;
 - Auxílio do **Spring Boot** para o desenvolvimento da aplicação, utilizando algumas de suas principais Beans, **Service** e **Repository**, para a realização de injeções de dependências.
 
-## 💻 Tecnologias utilizada
+## 💻 Tecnologias utilizadas
 - ``Java 17``
 - ``Maven v4.0.0``
 - ``Spring Boot``
